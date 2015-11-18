@@ -17,15 +17,15 @@ static const char *host_path = "C:/Windows/System32/drivers/etc/hosts";
 
 char* read_input(const char *msg, int len)
 {
-    char* buffer = (char *)malloc(sizeof(char) * (len+1));
+    char* buffer = malloc(sizeof(char) * len);
 
     fputs(msg, stdout);
     fgets(buffer, len, stdin);
 
     // remove New line
-    int last_char = strlen(buffer)-1;
-    if (buffer[last_char] == '\n'){
-        buffer[last_char] = '\0';
+    int end = strlen(buffer)-1;
+    if (buffer[end] == '\n'){
+        buffer[end] = '\0';
     }
 
     return buffer;
@@ -33,8 +33,7 @@ char* read_input(const char *msg, int len)
 
 void file_append(const char *path, const char *text)
 {
-    FILE *fd;    
-    fd = fopen(path, "a");
+    FILE *fd = fopen(path, "a");
 
     if (fd == NULL){
         printf("Error: unable to Write to file %s\n", path);
@@ -50,8 +49,8 @@ Cli_info *new_Cli()
     char *vhost = ":/xampp/apache/conf/extra/httpd-vhosts.conf";
     char *htdocs = ":/xampp/htdocs/";
 
-    Cli_info *info = malloc(sizeof (Cli_info));
-    info->addr = read_input("Web Name: ", 100);
+    Cli_info *info = malloc(sizeof(Cli_info));
+    info->addr  = read_input("Web Name: ", 100);
     info->drive = read_input("XAMPP Location: ", 100);
 
     size_t len = strlen(htdocs)+strlen(info->addr)+strlen(info->drive)+1;
@@ -82,10 +81,11 @@ int main()
 
     char *vhost_content = vhost_code(info->addr, info->addr_location);
     file_append(info->vhost, vhost_content);
-   
-    free(vhost_content);
-    free(hosts_code);
-    free(info);
+       
+    // No need to free at this point
+    // free(vhost_content);
+    // free(hosts_code);
+    // free(info);
 
     return 0;
 }
