@@ -83,7 +83,6 @@ int main()
     char *vhost_content = vhost_code(info->addr, info->addr_location);
     file_append(info->vhost, vhost_content);
    
-    // don't really need to free
     free(vhost_content);
     free(hosts_code);
     free(info);

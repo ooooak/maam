@@ -1,14 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "code_gen.h"
 
-#define VHOST_BUFF (1028)
-#define HOST_BUFF (514)
 
 char *vhost_code(char *webiste, char *xammp_path)
 {
-    static char vhost_content[VHOST_BUFF];
+    int buff = 1028;
+    char *vhost_content = malloc(sizeof(char) * buff);
 
-    snprintf(vhost_content, VHOST_BUFF,
+    snprintf(vhost_content, buff,
             "\n<VirtualHost *:80>\n"    
             "   ServerAdmin webmaster@%s\n"
             "   DocumentRoot \"%s\" \n"
@@ -25,7 +26,8 @@ char *vhost_code(char *webiste, char *xammp_path)
 
 char *host_code(char *webiste)
 {
-    static char host_content[HOST_BUFF];
-    snprintf(host_content, HOST_BUFF, "\n127.0.0.1   %s\n127.0.0.1   www.%s\n", webiste, webiste);
+    int buff = 1028;
+    char *host_content = malloc(sizeof(char) * buff);
+    snprintf(host_content, buff, "\n127.0.0.1   %s\n127.0.0.1   www.%s\n", webiste, webiste);
     return host_content;
 }
